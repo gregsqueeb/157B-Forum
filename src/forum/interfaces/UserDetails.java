@@ -1,4 +1,4 @@
-package forum;
+package forum.interfaces;
 
 import java.util.Date;
 
