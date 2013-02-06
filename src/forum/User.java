@@ -1,10 +1,15 @@
 package forum;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,12 +30,15 @@ public class User
 {    
     private long id;
     private String userName;
+    private UserDetails userDetails;
+    private List<MyForumPost> posts;
     
     public User() {}
     
-    public User(String userName)
+    public User(String userName, UserDetails userDetails)
     {
         this.userName = userName;
+        this.userDetails = userDetails;
     }
     
     @Id
@@ -43,12 +51,23 @@ public class User
     public String getUserName() {return userName;}
     public void setUserName(String userName) {this.userName = userName;}
     
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userDetailsId")
+    public UserDetails getUserDetails() {return userDetails;}
+    public void setUserDetails(UserDetails userDetails) 
+                                        { this.userDetails = userDetails; }
+    
+    @OneToMany(mappedBy = "user", targetEntity = MyForumPost.class,
+                cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    public List<MyForumPost> getPosts() { return posts; }
+    public void setPosts(List<MyForumPost> posts) { this.posts = posts; }
+    
     /**
      * Print user attributes.
      */
     public void print()
     {
-        System.out.printf("%d: %s\n", id, userName);
+        System.out.printf("%d: %s\n", id, userName, userDetails.getEmailAddress());
     }
     
     /**
@@ -72,11 +91,11 @@ public class User
         //Fill the Student table in a transaction.
         Transaction tx = session.beginTransaction();
         {
-            session.save(new User("Mac"));
-            session.save(new User("Dennis"));
-            session.save(new User("Dee"));
-            session.save(new User("Charlie"));
-            session.save(new User("Frank"));  
+            session.save(new User("Mac", new UserDetails("mac@email.com")));
+            session.save(new User("Dennis", new UserDetails("dennis@email.com")));
+            session.save(new User("Dee", new UserDetails("dee@email.com")));
+            session.save(new User("Charlie", new UserDetails("charlie@email.com")));
+            session.save(new User("Frank", new UserDetails("frank@email.com")));  
         }
         tx.commit();
         session.close();

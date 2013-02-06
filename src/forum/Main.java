@@ -15,7 +15,8 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        Class klasses[] = {Forum.class, Thread.class, MyForumPost.class, User.class};
+        Class klasses[] = {Forum.class, Thread.class, MyForumPost.class,
+                            User.class, UserDetails.class};
         HibernateContext.addClasses(klasses);
         HibernateContext.createSchema();
         
@@ -50,9 +51,9 @@ public class Main {
                 + "thread");
         post.print();
         post.thread.print();
-        post.user.print();
+        post.user.printInSession();
         post2.print();
-        post2.user.print();
+        post2.user.printInSession();
         
         System.out.println("");
         System.out.println("Showing one ot many relationship with forum -> "
