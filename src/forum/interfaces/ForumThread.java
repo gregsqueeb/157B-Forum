@@ -13,9 +13,11 @@ import java.util.List;
  */
 public interface ForumThread {
 
-	public void addPost(ForumPost post);
-	public void removePostPost(ForumPost post);
-	public List<ForumPost> getPostsInThread();
+//	public void addPost(ForumPost post);
+//	public void removePostPost(ForumPost post);
+//	public List<ForumPost> getPostsInThread();
+        // I am thinking for this method it will simply call on a findPost
+        // method which will 
 	
-	public Forum getForum();
+//	public Forum getForum();
 }

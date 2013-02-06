@@ -1,10 +1,19 @@
-package pkg157b;
+package forum;
 
+import forum.Forum;
+import forum.User;
+import java.util.Set;
 import java.util.List;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Column;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Query;
@@ -12,25 +21,25 @@ import org.hibernate.Query;
 /**
  * A forum Thread.
  * 
- * Many ForumThread to one Forum
- * One ForumThread to many ForumPost
+ * Many Thread to one Forum
+ * One Thread to many ForumPost
  * 
  * @author chris
  * @version January 2013
  */
 @Entity
-public class Thread {
+public class Thread{
     
     private long id;
     private String title;
-    private long forumID;
+    public Forum forum;
+    public Set<MyForumPost> posts;
     
     public Thread() {}
     
-    public Thread(String title, long forumID)
+    public Thread(String title)
     {
         this.title = title;
-        this.forumID = forumID;
     }
     
     @Id
@@ -43,16 +52,23 @@ public class Thread {
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
     
-    @Column(name="forumID")
-    public long getForumID() { return forumID; }
-    public void setForumID(long forumID) { this.forumID = forumID; }
+    
+    @OneToMany(mappedBy="thread", targetEntity=MyForumPost.class,
+        cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    public Set<MyForumPost> getPosts() { return posts; }
+    public void setPosts(Set<MyForumPost> posts) { this.posts = posts; }
+    
+    @ManyToOne
+    @JoinColumn(name="forumId")
+    public Forum getForum() { return forum; }
+    public void setForum(Forum forum) { this.forum = forum; }
     
     /**
      * Print Thread attributes.
      */
     public void print()
     {
-        System.out.printf("%d: %s %d\n", id, title, forumID);
+        System.out.printf("%d: %s #posts: %d forum: %s\n", id, title, posts.size(), forum.getName());
     }
     
     /**
@@ -69,19 +85,33 @@ public class Thread {
     public static void load()
     {
         Session session = HibernateContext.getSession();
+        Forum forum = Forum.find(1);
+        Thread thread1 = new Thread("Computers are so cool!");
+        thread1.setForum(forum);
+        
+        Thread thread2 = new Thread("What did you think of Star Wars?");
+        thread2.setForum(forum);
+        
+        Thread thread3 = new Thread("Can you believe all these n00bs?");
+        thread3.setForum(forum);
+        
+        Thread thread4 = new Thread("I hate using PASCAL! It sucks!");
+        thread4.setForum(forum);
+
+        
         
         // Fill the Thread table in a transaction.
         Transaction tx = session.beginTransaction(); 
         {
-            session.save(new Thread("Computers are so cool!", 1));
-            session.save(new Thread("What did you think of Star Wars?", 1));
-            session.save(new Thread("Can you believe all these n00bs?", 1));
-            session.save(new Thread("I hate using PASCAL! It sucks!", 1));
+            session.save(thread1);
+            session.save(thread2);
+            session.save(thread3);
+            session.save(thread4);
         }
         tx.commit();
         session.close();
         
-        System.out.println("Student table loaded.");
+        System.out.println("Thread table loaded.");
     }
     
     /**

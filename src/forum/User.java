@@ -21,7 +21,7 @@ import org.hibernate.Transaction;
  */
 
 @Entity
-public class User 
+public class User
 {    
     private long id;
     private String userName;
@@ -100,5 +100,18 @@ public class User
         }
         
         session.close();
+    }
+    
+    public static User find(long id)
+    {
+        Session session = HibernateContext.getSession();
+        Query query = session.createQuery("from User where id = :idvar");
+        
+        query.setLong("idvar", id);
+        User user = (User) query.uniqueResult();
+        System.out.printf("ID you searched for: %d\n", id);
+        
+        session.close();
+        return user;
     }
 }

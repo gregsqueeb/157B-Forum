@@ -22,4 +22,5 @@ public interface Forum {
 	public List<ForumThread> getThreads();
 	
 	public String getForumName();
+        public Forum getForum();
 }

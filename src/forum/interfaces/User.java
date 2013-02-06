@@ -15,18 +15,18 @@ import java.util.List;
  */
 public interface User {
 
-	public void addPost(ForumPost post);
-	public void removePost(ForumPost post);
-	public List<ForumPost> getPosts();
-	
-	public void setUserDetails(UserDetails details);
-	public UserDetails getUserDetails();
-	
-	public Forum moderateForum(Forum forum);
-	public void unmoderateForum(Forum forum);
-	public List<Forum> getModeratedForums();
-	
-	public String getUsername();
-	public String getEmail();
-	public Date getCreationDate();
+//	public void addPost(ForumPost post);
+//	public void removePost(ForumPost post);
+//	public List<ForumPost> getPosts();
+//	
+//	public void setUserDetails(UserDetails details);
+//	public UserDetails getUserDetails();
+//	
+//	public Forum moderateForum(Forum forum);
+//	public void unmoderateForum(Forum forum);
+//	public List<Forum> getModeratedForums();
+//	
+//	public String getUsername();
+//	public String getEmail();
+//	public Date getCreationDate();
 }

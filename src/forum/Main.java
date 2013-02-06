@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pkg157b;
+package forum;
 
 /**
  *
@@ -15,17 +15,24 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        Class klasses[] = {Thread.class};
+        Class klasses[] = {Forum.class, Thread.class, MyForumPost.class, User.class};
         HibernateContext.addClasses(klasses);
         HibernateContext.createSchema();
         
         
-        // Testing the Threads
+        // Load the necessarry tables
+        Forum.load();
         Thread.load();
+        User.load();
+        MyForumPost.load();
         Thread.list();
         Thread thread = Thread.find(1);
-        if (thread != null) {
+        MyForumPost post = MyForumPost.find(1);
+        MyForumPost post2 = MyForumPost.find(2);
+        Forum forum = Forum.find(1);
+        if (thread != null && post != null) {
             thread.print();
+            post.print();
         }
         else {
             System.out.printf("*** No student with id %d\n", 1);
@@ -36,6 +43,23 @@ public class Main {
         }
         else {
             System.out.printf("*** No student with title 'I hate using PASCAL! It sucks!'\n");
+        }
+        System.out.println("");
+        Thread postThread = post.getThread();
+        System.out.println("Showing many to one relationship with posts -> "
+                + "thread");
+        post.print();
+        post.thread.print();
+        post.user.print();
+        post2.print();
+        post2.user.print();
+        
+        System.out.println("");
+        System.out.println("Showing one ot many relationship with forum -> "
+                + "threads");
+        forum.print();
+        for(Thread individualThread : forum.threads){
+            individualThread.print();
         }
         
     }

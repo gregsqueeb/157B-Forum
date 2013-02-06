@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface ForumPost {
 	
-	public User getAuthor();
-	
-	public ForumThread getThread();
-	
-	public void revise(String newTitle, String newBody);
-	public List<ForumPostContent> getContent();
+//	public User getAuthor();
+//	
+//	public ForumThread getThread();
+//	
+//	public void revise(String newTitle, String newBody);
+//	public List<ForumPostContent> getContent();
 }
