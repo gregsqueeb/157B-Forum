@@ -71,16 +71,14 @@ public class User
                 joinColumns = @JoinColumn(name = "userId"),
                 inverseJoinColumns = @JoinColumn(name = "forumId"))
     public List<Forum> getForums() { return forums;}
-    public void setForums(List<Forum> forums) {
-        this.forums = forums;
-    }
+    public void setForums(List<Forum> forums) { this.forums = forums; }
     
     /**
      * Print user attributes.
      */
     public void print()
     {
-        System.out.printf("%d: %s\n", id, userName, userDetails.getEmailAddress());
+        System.out.printf("%d: %s (%s)\n", id, userName, userDetails.getEmailAddress());
     }
     
     /**

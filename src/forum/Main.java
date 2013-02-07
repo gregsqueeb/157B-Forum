@@ -56,7 +56,7 @@ public class Main {
         post2.user.printInSession();
         
         System.out.println("");
-        System.out.println("Showing one ot many relationship with forum -> "
+        System.out.println("Showing one to many relationship with forum -> "
                 + "threads");
         forum.print();
         for(Thread individualThread : forum.threads){
