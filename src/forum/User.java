@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import org.hibernate.Query;
@@ -22,7 +24,7 @@ import org.hibernate.Transaction;
  * One User to One UserDetails
  * 
  * @author Ryan
- * @version January 2013
+ * @version  2/6/13
  */
 
 @Entity
@@ -32,6 +34,7 @@ public class User
     private String userName;
     private UserDetails userDetails;
     private List<MyForumPost> posts;
+    private List<Forum> forums;
     
     public User() {}
     
@@ -61,6 +64,15 @@ public class User
                 cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     public List<MyForumPost> getPosts() { return posts; }
     public void setPosts(List<MyForumPost> posts) { this.posts = posts; }
+    
+    @ManyToMany
+    @JoinTable(name = "forumModerator", 
+                joinColumns = {@JoinColumn(name = "userId")},
+                inverseJoinColumns = {@JoinColumn(name = "forumId")})
+    public List<Forum> getForums() { return forums;}
+    public void setForums(List<Forum> forums) {
+        this.forums = forums;
+    }
     
     /**
      * Print user attributes.
@@ -129,6 +141,18 @@ public class User
         query.setLong("idvar", id);
         User user = (User) query.uniqueResult();
         System.out.printf("ID you searched for: %d\n", id);
+        
+        session.close();
+        return user;
+    }
+    
+    public static User find(String userName)
+    {
+        Session session = HibernateContext.getSession();
+        Query query = session.createQuery("from User where userName = :name");
+        
+        query.setString("name", userName);
+        User user = (User) query.uniqueResult();
         
         session.close();
         return user;
