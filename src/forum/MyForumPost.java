@@ -16,11 +16,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Table;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Query;
 
 @Entity
+@Table(name = "My_Forum_Post")
 public class MyForumPost {
         
         private long id;
@@ -57,7 +59,8 @@ public class MyForumPost {
         
         public void print()
         {
-            System.out.printf("postID: %d %s userID: %d threadID: %d\n", id, content, this.user.getId(), this.thread.getId());
+            System.out.printf("postID: %d %s userID: %d threadID: %d\n",
+                        id, content, this.user.getId(), this.thread.getId());
         }
         
         /**

@@ -1,5 +1,6 @@
 package forum;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,8 +34,8 @@ public class User
     private long id;
     private String userName;
     private UserDetails userDetails;
-    private List<MyForumPost> posts;
-    private List<Forum> forums;
+    private List<MyForumPost> posts = new ArrayList<MyForumPost>();
+    private List<Forum> forums = new ArrayList<Forum>();
     
     public User() {}
     
@@ -66,9 +67,9 @@ public class User
     public void setPosts(List<MyForumPost> posts) { this.posts = posts; }
     
     @ManyToMany
-    @JoinTable(name = "forumModerator", 
-                joinColumns = {@JoinColumn(name = "userId")},
-                inverseJoinColumns = {@JoinColumn(name = "forumId")})
+    @JoinTable(name = "forum_user", 
+                joinColumns = @JoinColumn(name = "userId"),
+                inverseJoinColumns = @JoinColumn(name = "forumId"))
     public List<Forum> getForums() { return forums;}
     public void setForums(List<Forum> forums) {
         this.forums = forums;

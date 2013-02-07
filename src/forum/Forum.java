@@ -38,10 +38,10 @@ public class Forum {
         public List<Thread> getThreads() { return threads; }
         public void setThreads(List<Thread> threads) { this.threads = threads; }
         
-        @ManyToMany()
-        @JoinTable(name = "forumModerator",
-                    joinColumns = {@JoinColumn(name = "forumId")},
-                    inverseJoinColumns = {@JoinColumn(name = "userId")})
+        @ManyToMany
+        @JoinTable(name = "forum_user",
+                    joinColumns = @JoinColumn(name = "forumId"),
+                    inverseJoinColumns = @JoinColumn(name = "userId"))
         public List<User> getUsers() { return users; }
         public void setUsers(List<User> users) { this.users = users; }
 
@@ -62,6 +62,7 @@ public class Forum {
         {
             Session session = HibernateContext.getSession();
             
+            // Create multiple forums
             Forum cs157b = new Forum("CS157B");
             Forum cs151 = new Forum("CS151");
             Forum cs152 = new Forum("CS152");
@@ -73,11 +74,16 @@ public class Forum {
             User charlie = User.find("charlie");
             User frank = User.find("frank");
         
-            //Add moderators to forum
+            // Assign users (moderators) to forum
             cs157b.getUsers().add(mac);
             cs157b.getUsers().add(dee);
+           
+            cs151.getUsers().add(dee);
             cs151.getUsers().add(dennis);
+            
             cs152.getUsers().add(charlie);
+            cs152.getUsers().add(mac);
+            
             cs160.getUsers().add(frank);
             
             // Fill the Thread table in a transaction.
