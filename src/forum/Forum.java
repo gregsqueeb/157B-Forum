@@ -13,6 +13,8 @@ import org.hibernate.Transaction;
 
 @Entity
 public class Forum {
+
+   
         private long id;
     	private String name;
 	public List<Thread> threads;
@@ -57,7 +59,7 @@ public class Forum {
             session.close();
             return forum;
         }
-
+        
         public static void load()
         {
             Session session = HibernateContext.getSession();
@@ -92,5 +94,25 @@ public class Forum {
         {
             System.out.printf("%d: %s #threads: %d\n", id, name, threads.size());
         }
-
+        public void printInSession()
+    {
+        Session session = HibernateContext.getSession();
+        session.update(this);
+        print();
+        session.close();
+    }
+        public static void list()
+    {
+        Session session = HibernateContext.getSession();
+        Query query = session.createQuery("from Forum");
+        
+        System.out.println("All Forums: ");
+        
+        for (Forum forum : (List<Forum>) query.list())
+        {
+            forum.print();
+        }
+        
+        session.close();
+    }
 }

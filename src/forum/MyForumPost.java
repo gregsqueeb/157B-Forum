@@ -22,7 +22,7 @@ import org.hibernate.Transaction;
 import org.hibernate.Query;
 
 @Entity
-@Table(name = "My_Forum_Post")
+@Table(name = "MyForumPost")
 public class MyForumPost {
         
         private long id;
@@ -137,5 +137,18 @@ public class MyForumPost {
             session.close();
             return post;
         }
+        public static void list()
+    {
+        Session session = HibernateContext.getSession();
+        Query query = session.createQuery("from MyForumPost");
+        
+        System.out.println("All Forum Posts:");
+        
+        for (MyForumPost post : (List<MyForumPost>) query.list()) {
+            post.print();
+        }
+
+        session.close();
+    }
 
 }
