@@ -7,9 +7,11 @@ import forum.Thread;
 import forum.User;
 import java.util.ArrayList;
 import javax.persistence.*;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 
 @Entity
 public class Forum {
@@ -104,13 +106,30 @@ public class Forum {
         public static void list()
     {
         Session session = HibernateContext.getSession();
-        Query query = session.createQuery("from Forum");
+        /*Query query = session.createQuery("from Forum");
         
         System.out.println("All Forums: ");
         
         for (Forum forum : (List<Forum>) query.list())
         {
             forum.print();
+        }*/
+        Criteria criteria = session.createCriteria(Forum.class);
+        criteria.addOrder(Order.asc("name"));
+        
+        List<Forum> forums = criteria.list();
+        System.out.println("All Forums:");
+        
+        for(Forum forum : forums){
+            forum.print();
+            
+            for(Thread thread : forum.getThreads()){
+                System.out.printf("    Thread: %s\n", thread.getTitle());
+                
+                for(MyForumPost posts : thread.getPosts()){
+                    System.out.printf("        Posts: %s", posts.getContent());
+                }
+            }
         }
         
         session.close();

@@ -86,6 +86,7 @@ public class Thread{
     {
         Session session = HibernateContext.getSession();
         Forum forum = Forum.find(1);
+        Forum forum2 = Forum.find(2);
         Thread thread1 = new Thread("Computers are so cool!");
         thread1.setForum(forum);
         
@@ -93,10 +94,10 @@ public class Thread{
         thread2.setForum(forum);
         
         Thread thread3 = new Thread("Can you believe all these n00bs?");
-        thread3.setForum(forum);
+        thread3.setForum(forum2);
         
         Thread thread4 = new Thread("I hate using PASCAL! It sucks!");
-        thread4.setForum(forum);
+        thread4.setForum(forum2);
 
         
         
