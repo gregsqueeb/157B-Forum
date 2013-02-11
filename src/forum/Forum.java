@@ -40,8 +40,8 @@ public class Forum {
         
         @ManyToMany
         @JoinTable(name = "forum_user",
-                    joinColumns = @JoinColumn(name = "forumId"),
-                    inverseJoinColumns = @JoinColumn(name = "userId"))
+                    joinColumns={@JoinColumn(name = "forumId")},
+                    inverseJoinColumns={@JoinColumn(name = "userId")})
         public List<User> getUsers() { return users; }
         public void setUsers(List<User> users) { this.users = users; }
 
@@ -65,15 +65,11 @@ public class Forum {
             // Create multiple forums
             Forum cs157b = new Forum("CS157B");
             Forum cs151 = new Forum("CS151");
-            Forum cs152 = new Forum("CS152");
-            Forum cs160 = new Forum("CS160");
             
             User mac = User.find("mac");
             User dennis = User.find("dennis");
             User dee = User.find("dee");
-            User charlie = User.find("charlie");
-            User frank = User.find("frank");
-        
+            
             // Assign users (moderators) to forum
             cs157b.getUsers().add(mac);
             cs157b.getUsers().add(dee);
@@ -81,18 +77,11 @@ public class Forum {
             cs151.getUsers().add(dee);
             cs151.getUsers().add(dennis);
             
-            cs152.getUsers().add(charlie);
-            cs152.getUsers().add(mac);
-            
-            cs160.getUsers().add(frank);
-            
             // Fill the Thread table in a transaction.
             Transaction tx = session.beginTransaction(); 
             {
                 session.save(cs157b);
                 session.save(cs151);
-                session.save(cs152);
-                session.save(cs160);
             }
             tx.commit();
             session.close();

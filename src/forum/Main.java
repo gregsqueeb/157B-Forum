@@ -22,14 +22,15 @@ public class Main {
         
         
         // Load the necessarry tables
+        User.load();
         Forum.load();
         Thread.load();
-        User.load();
         MyForumPost.load();
         Thread.list();
         Thread thread = Thread.find(1);
         MyForumPost post = MyForumPost.find(1);
         MyForumPost post2 = MyForumPost.find(2);
+        /**
         Forum forum = Forum.find(1);
         if (thread != null && post != null) {
             thread.print();
@@ -62,6 +63,6 @@ public class Main {
         for(Thread individualThread : forum.threads){
             individualThread.print();
         }
-        
-    }
+        */
+    }//end of main
 }

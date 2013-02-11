@@ -68,8 +68,8 @@ public class User
     
     @ManyToMany
     @JoinTable(name = "forum_user", 
-                joinColumns = @JoinColumn(name = "userId"),
-                inverseJoinColumns = @JoinColumn(name = "forumId"))
+                joinColumns={@JoinColumn(name = "userId")},
+                inverseJoinColumns={@JoinColumn(name = "forumId")})
     public List<Forum> getForums() { return forums;}
     public void setForums(List<Forum> forums) { this.forums = forums; }
     
