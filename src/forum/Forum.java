@@ -74,7 +74,7 @@ public class Forum {
             User dennis = User.find("dennis");
             User dee = User.find("dee");
             
-            // Assign users (moderators) to forum
+            // Add users to forum
             cs157b.getUsers().add(mac);
             cs157b.getUsers().add(dee);
            
@@ -106,14 +106,24 @@ public class Forum {
         public static void list()
     {
         Session session = HibernateContext.getSession();
-        /*Query query = session.createQuery("from Forum");
+        Query query = session.createQuery("from Forum");
         
         System.out.println("All Forums: ");
         
         for (Forum forum : (List<Forum>) query.list())
         {
             forum.print();
-        }*/
+            
+            for (Thread threads : forum.getThreads())
+            {
+                System.out.printf("    Thread: %s\n", threads.getTitle());
+                
+                for(MyForumPost posts : threads.getPosts()){
+                    System.out.printf("        Posts: %s\n", posts.getContent());
+                }
+            }
+        }
+        /*
         Criteria criteria = session.createCriteria(Forum.class);
         criteria.addOrder(Order.asc("name"));
         
@@ -127,10 +137,10 @@ public class Forum {
                 System.out.printf("    Thread: %s\n", thread.getTitle());
                 
                 for(MyForumPost posts : thread.getPosts()){
-                    System.out.printf("        Posts: %s", posts.getContent());
+                    System.out.printf("        Posts: %s\n", posts.getContent());
                 }
             }
-        }
+        }*/
         
         session.close();
     }
