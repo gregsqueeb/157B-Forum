@@ -73,10 +73,12 @@ public class Forum {
             User mac = User.find("mac");
             User dennis = User.find("dennis");
             User dee = User.find("dee");
+            User frank = User.find("frank");
             
             // Add users to forum
             cs157b.getUsers().add(mac);
             cs157b.getUsers().add(dee);
+            cs157b.getUsers().add(frank);
            
             cs151.getUsers().add(dee);
             cs151.getUsers().add(dennis);

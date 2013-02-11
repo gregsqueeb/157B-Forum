@@ -127,6 +127,13 @@ public class User
         for (User user : (List<User>) query.list())
         {
             user.print();
+            
+            System.out.print("    Forums:");
+            for (Forum forums : user.getForums())
+            {
+                System.out.printf(" %s", forums.getName());
+            }
+            System.out.println("");
         }
         
         session.close();
